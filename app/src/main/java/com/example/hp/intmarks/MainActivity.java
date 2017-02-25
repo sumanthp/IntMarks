@@ -24,7 +24,7 @@ import android.widget.TextView;
 import activity.LoginActivity;
 import helper.SQLiteHandler;
 import helper.SessionManager;
-
+import activity.UpdatePassword;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity
 
     private SQLiteHandler db;
     private SessionManager session;
+    public static String dispName;
+    public static String usn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -78,13 +80,16 @@ public class MainActivity extends AppCompatActivity
         HashMap<String, String> user = db.getUserDetails();
         View hView =  navigationView.getHeaderView(0);
         String name = user.get("name");
-        String email = user.get("USN");
-  System.out.println(name+" "+email);
+        String USN = user.get("USN");
+        System.out.println(name+" "+USN);
+
+       dispName=name;
+        usn=USN;
         // Displaying the user details on the screen
         txtName = (TextView)hView.findViewById(R.id.name);
         txtName.setText(name);
         txtUSN = (TextView)hView.findViewById(R.id.username);
-        txtUSN.setText(email);
+        txtUSN.setText(USN);
 
         // Logout button click event
        /* btnLogout.setOnClickListener(new View.OnClickListener() {
@@ -147,18 +152,9 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.passwordChange) {
+                 Intent intent =new Intent(MainActivity.this,UpdatePassword.class);
+                 startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

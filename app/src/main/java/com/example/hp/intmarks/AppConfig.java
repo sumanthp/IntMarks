@@ -7,4 +7,6 @@ package com.example.hp.intmarks;
 public class AppConfig {
     // Server user login url
     public static String URL_LOGIN = "http://bmscecie.site11.com/login.php";
+    //server update password url
+    public static String URL_UPDATE="http://bmscecie.site11.com/updatePassword.php";
 }
