@@ -1,0 +1,58 @@
+{
+  "project_info": {
+    "project_number": "777665893187",
+    "firebase_url": "https://cie-portal-dba2f.firebaseio.com",
+    "project_id": "cie-portal-dba2f",
+    "storage_bucket": "cie-portal-dba2f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:777665893187:android:a9a8ce50260542a6",
+        "android_client_info": {
+          "package_name": "com.example.hp.intmarks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "777665893187-ecl4rkeavbhi98dv64qn3feie6fhvk5g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hp.intmarks",
+            "certificate_hash": "92ef5f66ab24c8fac8511949353beb8a680100fd"
+          }
+        },
+        {
+          "client_id": "777665893187-l2diaro36eocs9fq3roagng7222c5r0f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9MgrtR_XNJ6luEIQ9oFV9-qnN827mt0s"
+        },
+        {
+          "current_key": "AIzaSyB7_r_zEYHuGAcJXA6wwF-nfoFX9CGNuJw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "777665893187-l2diaro36eocs9fq3roagng7222c5r0f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
