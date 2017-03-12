@@ -1,4 +1,4 @@
-package activity;
+package com.example.hp.intmarks;
 
 /**
  * Created by HP on 24/02/2017.
@@ -25,10 +25,6 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.example.hp.intmarks.R;
-import com.example.hp.intmarks.MainActivity;
-import com.example.hp.intmarks.AppConfig;
-import com.example.hp.intmarks.AppController;
 import helper.SQLiteHandler;
 import helper.SessionManager;
 
@@ -184,7 +180,7 @@ public class LoginActivity extends Activity {
         };
 
         // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+        AppController.getInstance().addToRequestQueue(strReq);
     }
 
     private void showDialog() {

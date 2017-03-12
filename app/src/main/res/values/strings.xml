@@ -15,4 +15,5 @@
     <string name="hint_newPassword">New Password</string>
     <string name="hint_confirmPassword">Confirm Password</string>
     <string name="btn_update">Update</string>
+    <string name="send_button">send</string>
 </resources>

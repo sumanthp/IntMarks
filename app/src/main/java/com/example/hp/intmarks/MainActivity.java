@@ -2,8 +2,6 @@ package com.example.hp.intmarks;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -17,10 +15,7 @@ import android.view.MenuItem;
 import java.util.HashMap;
 import java.util.Map;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,8 +28,8 @@ import com.android.volley.toolbox.StringRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import activity.ChatActivity;
 import activity.DisplayMarks;
-import activity.LoginActivity;
 import helper.SQLiteHandler;
 import helper.SessionManager;
 import activity.UpdatePassword;
@@ -65,6 +60,8 @@ public class MainActivity extends AppCompatActivity
     public static String courseCode4;
     public static String courseCode5;
     private ProgressDialog pDialog;
+    public String name;
+    public String USN;
     public static final String TAG =MainActivity.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,8 +111,8 @@ public class MainActivity extends AppCompatActivity
         // Fetching user details from sqlite
         HashMap<String, String> user = db.getUserDetails();
         View hView =  navigationView.getHeaderView(0);
-        String name = user.get("name");
-        String USN = user.get("USN");
+        name = user.get("name");
+       USN = user.get("USN");
         System.out.println(name+" "+USN);
 
        dispName=name;
@@ -280,7 +277,7 @@ public class MainActivity extends AppCompatActivity
         };
 
         // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+        AppController.getInstance().addToRequestQueue(strReq);
         return true;
     }
 
@@ -349,11 +346,11 @@ public class MainActivity extends AppCompatActivity
                  Intent intent =new Intent(MainActivity.this,UpdatePassword.class);
                  startActivity(intent);
         }
-        /*if(id==R.id.chat)
+        if(id==R.id.chat)
         {
-            Intent i=new Intent(this,ChatActivity.class);
+            Intent i=new Intent(this, ChatActivity.class);
             startActivity(i);
-        }*/
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
