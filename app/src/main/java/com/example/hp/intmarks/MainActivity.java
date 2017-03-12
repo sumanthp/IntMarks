@@ -349,7 +349,11 @@ public class MainActivity extends AppCompatActivity
                  Intent intent =new Intent(MainActivity.this,UpdatePassword.class);
                  startActivity(intent);
         }
-
+        /*if(id==R.id.chat)
+        {
+            Intent i=new Intent(this,ChatActivity.class);
+            startActivity(i);
+        }*/
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

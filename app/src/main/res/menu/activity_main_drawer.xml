@@ -6,4 +6,8 @@
         android:id="@+id/passwordChange"
         android:checkable="false" />
 
+    <item android:title="Chat"
+        android:id="@+id/chat"
+        android:checkable="false" />
+
 </menu>
