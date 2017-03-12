@@ -46,9 +46,8 @@
             android:layout_height="wrap_content"
             android:clickable="true"
 
-            android:tint="@drawable/ic_action_send"
 
-            />
+            app:backgroundTint="@color/colorPrimary" />
     </LinearLayout>
 
     <ProgressBar
