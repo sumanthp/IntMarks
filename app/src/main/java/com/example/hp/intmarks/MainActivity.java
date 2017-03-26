@@ -30,6 +30,7 @@ import org.json.JSONObject;
 
 import activity.ChatActivity;
 import activity.DisplayMarks;
+import activity.NameActivity;
 import helper.SQLiteHandler;
 import helper.SessionManager;
 import activity.UpdatePassword;
@@ -78,7 +79,11 @@ public class MainActivity extends AppCompatActivity
         course3=(Button)findViewById(R.id.sub3);
         course4=(Button)findViewById(R.id.sub4);
         course5=(Button)findViewById(R.id.sub5);
-
+        courseCode1=course1.getText().toString();
+        courseCode2=course2.getText().toString();
+        courseCode3=course3.getText().toString();
+        courseCode4=course4.getText().toString();
+        courseCode5=course5.getText().toString();
         setSupportActionBar(toolbar);
 
  /*       FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -348,7 +353,7 @@ public class MainActivity extends AppCompatActivity
         }
         if(id==R.id.chat)
         {
-            Intent i=new Intent(this, ChatActivity.class);
+            Intent i=new Intent(this, NameActivity.class);
             startActivity(i);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

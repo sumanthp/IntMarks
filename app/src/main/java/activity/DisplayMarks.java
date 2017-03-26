@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -57,7 +58,7 @@ public class DisplayMarks extends Activity{
         firstInt=(TextView)findViewById(R.id.FIMarks);
         secondInt=(TextView)findViewById(R.id.SIMarks);
         thirdInt=(TextView)findViewById(R.id.TIMarks);
-
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.chat);
         //Intent intent=getIntent();
         // String code=intent.getStringExtra("course");
        //marks(MainActivity.usn,code);
@@ -76,6 +77,13 @@ public class DisplayMarks extends Activity{
         firstInt.setText(firstInternals);
         secondInt.setText(secondInternals);
         thirdInt.setText(thirdInternals);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                      Intent i=new Intent(DisplayMarks.this,ChatActivity.class);
+                      startActivity(i);
+            }
+        });
     }
 
   /*  public void marks(final String username,final String course)
