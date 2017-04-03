@@ -13,7 +13,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="20dp"
         android:src="@drawable/ic_launcher"
         android:layout_alignParentTop="true"/>
      <TextView
@@ -21,8 +21,8 @@
          android:layout_height="wrap_content"
          android:layout_below="@+id/imgLogo"
          android:layout_centerHorizontal="true"
-         android:layout_marginTop="15dp"
-         android:textSize="20sp"
+         android:layout_marginTop="5dp"
+         android:textSize="30sp"
          android:text="@string/title"
          android:textColor="@color/white"/>
      <LinearLayout
@@ -37,11 +37,13 @@
              android:layout_width="wrap_content"
              android:layout_marginBottom="10dp"
              android:layout_marginTop="15dp"
-             android:text="@string/enter_name"
+             android:text="This a LIVE CHAT only for clarifying doubts regarding the subject and related to marks.\n
+No offensive Language to be spoken.If teachers are available ,they will clarify the doubts.\n
+This is Real time chat,so no database is stored."
              android:textColor="@color/white"
              android:textSize="18dp"
              tools:ignore="SpUsage" />
-         <android.support.design.widget.TextInputEditText
+       <!--  <android.support.design.widget.TextInputEditText
              android:layout_width="fill_parent"
              android:layout_height="wrap_content"
              android:id="@+id/name"
@@ -50,14 +52,14 @@
              android:background="@color/white"
              android:inputType="textCapWords"
              android:padding="10dp"
-             />
+             />-->
          <Button
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:id="@+id/bg_btn_join"
              android:paddingLeft="25dp"
              android:paddingRight="25dp"
-             android:text="@string/btn_join"
+             android:text="AGREE"
              android:textColor="@color/white"
              android:background="@color/bg_btn_join" />
      </LinearLayout>

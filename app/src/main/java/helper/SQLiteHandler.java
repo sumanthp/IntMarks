@@ -39,7 +39,7 @@ public class SQLiteHandler extends SQLiteOpenHelper{
     private static final String KEY_S_STUDY="S_STUDY";
     private static final String KEY_F_MARKS="FINAL_MARKS";
     private static final String KEY_BOT="BOT";
-
+    private static final String KEY_PASSWORD="password";
     public SQLiteHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -59,7 +59,8 @@ public class SQLiteHandler extends SQLiteOpenHelper{
     private static final String CREATE_LOGIN_TABLE="CREATE TABLE " + TABLE_USER + "("
             + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + KEY_NAME + " TEXT NOT NULL,"
-            + KEY_USN +" TEXT NOT NULL)";
+            + KEY_USN +" TEXT NOT NULL,"
+            + KEY_PASSWORD+ " TEXT NOT NULL)";
 
     // Creating Tables
     @Override
@@ -84,12 +85,13 @@ public class SQLiteHandler extends SQLiteOpenHelper{
     /**
      * Storing user details in database
      * */
-    public void addUser(String name, String username) {
+    public void addUser(String name, String username,String password) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, name); // Name
         values.put(KEY_USN, username);// USN
+        values.put(KEY_PASSWORD,password);
 
 
 
@@ -138,6 +140,7 @@ public class SQLiteHandler extends SQLiteOpenHelper{
         if (cursor.getCount() > 0) {
             user.put("name", cursor.getString(1));
             user.put("USN", cursor.getString(2));
+            user.put("password",cursor.getString(3));
         }
         //cursor.close();
        // db.close();
@@ -147,9 +150,9 @@ public class SQLiteHandler extends SQLiteOpenHelper{
         return user;
     }
 
-    public HashMap<String, String> getMarks() {
+    public HashMap<String, String> getMarks(String courseId) {
         HashMap<String, String> user = new HashMap<String, String>();
-        String selectQuery = "SELECT  * FROM " + TABLE_MARKS;
+        String selectQuery = "SELECT  * FROM " + TABLE_MARKS+" WHERE "+KEY_COURSE_CODE+"='"+courseId+"'";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);

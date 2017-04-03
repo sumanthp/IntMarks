@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import activity.UpdatePassword;
 import helper.SQLiteHandler;
 import helper.SessionManager;
 
@@ -32,7 +33,6 @@ public class LoginActivity extends Activity {
   //  private static final String TAG = RegisterActivity.class.getSimpleName();
   private static final String TAG =LoginActivity.class.getSimpleName();
     private Button btnLogin;
-    private Button btnLinkToRegister;
     private EditText inputUSN;
     private EditText inputPassword;
     private ProgressDialog pDialog;
@@ -126,23 +126,32 @@ public class LoginActivity extends Activity {
                     if (!error) {
                         // user successfully logged in
                         // Create login session
-                        session.setLogin(true);
+
 
                         // Now store the user in SQLite
                         JSONObject user = jObj.getJSONObject("user");
                         String name = user.getString("name");
                         String username = user.getString("username");
+                        String password=user.getString("password");
+                        if(username.equals(password))
+                        {
+                            //db.addUser(name, username,password);
+                            Intent intent=new Intent(LoginActivity.this, UpdatePassword.class);
+                            startActivity(intent);
+                            finish();
+                        }
                        // String created_at = user
                                 //.getString("created_at");
-
-                        // Inserting row in users table
-                      db.addUser(name, username);
-
-                        // Launch main activity
-                        Intent intent = new Intent(LoginActivity.this,
-                                MainActivity.class);
-                        startActivity(intent);
-                        finish();
+                        else {
+                            // Inserting row in users table
+                            db.addUser(name, username,password);
+                            session.setLogin(true);
+                            // Launch main activity
+                            Intent intent = new Intent(LoginActivity.this,
+                                    MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
                     } else {
                         // Error in login. Get the error message
                         String errorMsg = jObj.getString("error_msg");
@@ -192,9 +201,9 @@ public class LoginActivity extends Activity {
         if (pDialog.isShowing())
             pDialog.dismiss();
     }
-    @Override
+  /*  @Override
     protected void onDestroy() {
         db.close();
-        super.onDestroy();
-    }
+        //super.onDestroy();
+    }*/
 }

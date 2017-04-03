@@ -17,7 +17,7 @@
     <color name="btn_login_bg">#eceef1</color>
     <color name="lbl_name">#333333</color>
     <color name="btn_logut_bg">#ff6861</color>
-   <!-- <color name="actionbar">#3cb879</color>-->
+
     <color name="actionbar">#1976d2</color>
     <color name="body_background">#e8e8e8</color>
     <color name="body_background_green">#82e783</color>
@@ -26,9 +26,12 @@
     <color name="bg_msg_you">#5eb964</color>
     <color name="bg_msg_from">#e5e7eb</color>
     <color name="msg_border_color">#a1a1a1</color>
-    <!--<color name="bg_btn_join">#1e6258</color>-->
+
     <color name="bg_btn_join">#0d47a1</color>
     <color name="bg_msg_input">#e8e8e8</color>
     <color name="text_msg_input">#626262</color>
     <color name="lblFromName">#777777</color>
+    <color name="indigo">#4b0082</color>
+    <color name="pink">#ff69b4</color>
+
 </resources>

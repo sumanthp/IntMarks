@@ -6,5 +6,5 @@ package activity;
 
 public class WebSocketConfig {
     public static final String URL_WEBSOCKET =
-            "ws://192.168.137.1:8080/WebMobileGroupChatServer/chat?name=";
+            "ws://192.168.137.1:8080/LiveChat/chat?name=";
 }

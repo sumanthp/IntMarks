@@ -25,26 +25,26 @@ public class NameActivity extends Activity {
         setContentView(R.layout.activity_name);
 
         join=(Button)findViewById(R.id.bg_btn_join);
-        name=(EditText)findViewById(R.id.name);
+       // name=(EditText)findViewById(R.id.name);
 
         //getActionBar().hide();
         join.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(name.getText().toString().trim().length()>0)
+                /*if(name.getText().toString().trim().length()>0)
                 {
-                    String inputname=name.getText().toString().trim();
+                    String inputname=name.getText().toString().trim();*/
                     Intent intent=new Intent(NameActivity.this,WebSocketChat.class);
-                    intent.putExtra("name",inputname);
+                   // intent.putExtra("name",inputname);
 
 
                     startActivity(intent);
 
-                }
+               /* }
                 else
                 {
                     Toast.makeText(getApplicationContext(),"Enter your name",Toast.LENGTH_LONG).show();
-                }
+                }*/
             }
         });
     }

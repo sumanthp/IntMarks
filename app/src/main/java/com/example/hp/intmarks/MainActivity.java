@@ -1,7 +1,12 @@
 package com.example.hp.intmarks;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -28,7 +33,6 @@ import com.android.volley.toolbox.StringRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import activity.ChatActivity;
 import activity.DisplayMarks;
 import activity.NameActivity;
 import helper.SQLiteHandler;
@@ -49,7 +53,7 @@ public class MainActivity extends AppCompatActivity
     private Button course3;
     private Button course4;
     private Button course5;
-
+    private Button course6;
     private SQLiteHandler db;
     private SessionManager session;
 
@@ -63,11 +67,13 @@ public class MainActivity extends AppCompatActivity
     private ProgressDialog pDialog;
     public String name;
     public String USN;
+    String courseId[]={"16IS6DCSEO","16IS6DCCNS","16IS6DCCDN","16IS6DCEAM","16IS6DCSNA","16IS6DCMLG"};
     public static final String TAG =MainActivity.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        pDialog = new ProgressDialog(this);
-        pDialog.setCancelable(false);
+      // pDialog = new ProgressDialog(this);
+       // pDialog.setCancelable(false);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -79,6 +85,7 @@ public class MainActivity extends AppCompatActivity
         course3=(Button)findViewById(R.id.sub3);
         course4=(Button)findViewById(R.id.sub4);
         course5=(Button)findViewById(R.id.sub5);
+        course6=(Button)findViewById(R.id.sub6);
         courseCode1=course1.getText().toString();
         courseCode2=course2.getText().toString();
         courseCode3=course3.getText().toString();
@@ -117,9 +124,15 @@ public class MainActivity extends AppCompatActivity
         HashMap<String, String> user = db.getUserDetails();
         View hView =  navigationView.getHeaderView(0);
         name = user.get("name");
-       USN = user.get("USN");
+        USN = user.get("USN");
+        String password=user.get("password");
         System.out.println(name+" "+USN);
-
+     /*   if(password.equals(USN))
+        {
+            Intent intent=new Intent(MainActivity.this,LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }*/
        dispName=name;
         usn=USN;
         // Displaying the user details on the screen
@@ -128,12 +141,28 @@ public class MainActivity extends AppCompatActivity
         txtUSN = (TextView)hView.findViewById(R.id.username);
         txtUSN.setText(USN);
 
+        //check if marks are present in database
+        for(int i=0;i<6;i++) {
+            HashMap<String, String> courseMarks = db.getMarks(courseId[i]);
+            if (courseMarks.size() == 0) {
+                if (isOnline()) {
+                    new MarksDataRetrieveAsyncTask().execute(courseId[i]);
+                }
+                else{
+                    Toast.makeText(this, "Not connected to online.Please connect to download marks", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
 
         course1.setOnClickListener(new View.OnClickListener() {
 
                                        public void onClick(View view) {
                                            //View hView =  navigationView.getHeaderView(0);
-                                           marks(usn,course1.getText().toString());
+
+                                           Intent intent = new Intent(MainActivity.this, DisplayMarks.class);
+                                           intent.putExtra("courseId",courseId[0]);
+                                           startActivity(intent);
 
 
                                        }
@@ -143,10 +172,9 @@ public class MainActivity extends AppCompatActivity
 
                                        public void onClick(View view) {
                                            //View hView =  navigationView.getHeaderView(0);
-                                           marks(usn,course2.getText().toString());
-                                               //Intent intent = new Intent(MainActivity.this, DisplayMarks.class);
-                                               //intent.putExtra("course",course2.getText());
-                                               //startActivity(intent);
+                                           Intent intent = new Intent(MainActivity.this, DisplayMarks.class);
+                                           intent.putExtra("courseId",courseId[1]);
+                                           startActivity(intent);
                                        }
                                    }
         );
@@ -154,10 +182,9 @@ public class MainActivity extends AppCompatActivity
 
                                        public void onClick(View view) {
                                            //View hView =  navigationView.getHeaderView(0);
-                                           marks(usn, course3.getText().toString());
-                                             //  Intent intent = new Intent(MainActivity.this, DisplayMarks.class);
-                                           // intent.putExtra("course",course3.getText());
-                                           //startActivity(intent);
+                                           Intent intent = new Intent(MainActivity.this, DisplayMarks.class);
+                                           intent.putExtra("courseId",courseId[2]);
+                                           startActivity(intent);
 
                                        }
                                    }
@@ -166,10 +193,9 @@ public class MainActivity extends AppCompatActivity
 
                                        public void onClick(View view) {
                                            //View hView =  navigationView.getHeaderView(0);
-                                          marks(usn,course4.getText().toString());
-                                              // Intent intent = new Intent(MainActivity.this, DisplayMarks.class);
-                                               //intent.putExtra("course",course4.getText());
-                                               //startActivity(intent);
+                                           Intent intent = new Intent(MainActivity.this, DisplayMarks.class);
+                                           intent.putExtra("courseId",courseId[3]);
+                                           startActivity(intent);
 
                                        }
                                    }
@@ -178,10 +204,20 @@ public class MainActivity extends AppCompatActivity
 
                                        public void onClick(View view) {
                                            //View hView =  navigationView.getHeaderView(0);
-                                          marks(usn,course5.getText().toString());
-                                              //Intent intent = new Intent(MainActivity.this, DisplayMarks.class);
-                                              //  intent.putExtra("course",course5.getText());
-                                              //startActivity(intent);
+                                           Intent intent = new Intent(MainActivity.this, DisplayMarks.class);
+                                           intent.putExtra("courseId",courseId[4]);
+                                           startActivity(intent);
+
+                                       }
+                                   }
+        );
+        course6.setOnClickListener(new View.OnClickListener() {
+
+                                       public void onClick(View view) {
+                                           //View hView =  navigationView.getHeaderView(0);
+                                           Intent intent = new Intent(MainActivity.this, DisplayMarks.class);
+                                           intent.putExtra("courseId",courseId[5]);
+                                           startActivity(intent);
 
                                        }
                                    }
@@ -189,12 +225,36 @@ public class MainActivity extends AppCompatActivity
 
 
     }
+
+
+    private Boolean isOnline()  {
+        ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        if(ni != null && ni.isConnected())
+            return true;
+
+        return false;
+    }
+
+    private class MarksDataRetrieveAsyncTask extends AsyncTask<String,Void,Void> {
+        @Override
+        protected Void doInBackground(String... params){
+            marks(usn,params[0]);
+           // marks(usn,courseId[1]);
+            //marks(usn,courseId[2]);
+            //marks(usn,courseId[3]);
+            //marks(usn,courseId[4]);
+            return null;
+        }
+
+    }
+
     public boolean marks(final String username,final String course)
     {
         String tag_string_req = "req_login";
 
-        pDialog.setMessage("Downloading Marks ...");
-        showDialog();
+        /*pDialog.setMessage("Downloading Marks ...");
+        showDialog();*/
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 AppConfig.URL_MARKS, new Response.Listener<String>() {
@@ -203,7 +263,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, "Request Response: " + response.toString());
-                hideDialog();
+              //  hideDialog();
 
                 try {
 
@@ -229,7 +289,7 @@ public class MainActivity extends AppCompatActivity
                         String finalMarks=user.getString("FINAL_MARKS");
                         String bestofTwo=user.getString("BEST_OF_TWO");
 
-                        Toast.makeText(getApplicationContext(),"Marks have been successfully retrieved",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),"Marks have been successfully retrieved",Toast.LENGTH_SHORT).show();
                         // String created_at = user
                         //.getString("created_at");
 
@@ -241,20 +301,22 @@ public class MainActivity extends AppCompatActivity
                         /*Intent intent = new Intent(DisplayMarks.this,
                                 MainActivity.class);
                         startActivity(intent);*/
-                        Intent intent = new Intent(MainActivity.this, DisplayMarks.class);
+                       // Intent intent = new Intent(MainActivity.this, DisplayMarks.class);
                         //intent.putExtra("course",course1.getText());
-                        startActivity(intent);
-                        finish();
+                        //startActivity(intent);
+                        //finish();
                     } else {
                         // Error in login. Get the error message
-                        String errorMsg = jObj.getString("error_msg");
-                        Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_LONG).show();
+                      String errorMsg = jObj.getString("error_msg");
+                        /*Toast.makeText(getApplicationContext(),
+                                errorMsg, Toast.LENGTH_LONG).show();*/
+                        System.out.println(errorMsg);
                     }
                 } catch (JSONException e) {
                     // JSON error
                     e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "unable to contact server for marks", Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -265,7 +327,7 @@ public class MainActivity extends AppCompatActivity
                 Log.e(TAG, "Retrieving Marks Error: " + error.getMessage());
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_LONG).show();
-                hideDialog();
+               // hideDialog();
             }
         }) {
 
@@ -287,7 +349,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    private void showDialog() {
+  /*  private void showDialog() {
         if (!pDialog.isShowing())
             pDialog.show();
     }
@@ -295,7 +357,7 @@ public class MainActivity extends AppCompatActivity
     private void hideDialog() {
         if (pDialog.isShowing())
             pDialog.dismiss();
-    }
+    }*/
     private void logoutUser() {
         session.setLogin(false);
         db.deleteUsers();
@@ -306,14 +368,31 @@ public class MainActivity extends AppCompatActivity
         finish();
     }
 
-
+    private Boolean exit = false;
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //System.exit(0);
+            //finish();
+
+            moveTaskToBack(true);
+           /* if (exit) {
+                finish(); // finish activity
+            } else {
+                Toast.makeText(this, "Press Back again to Exit.",
+                        Toast.LENGTH_SHORT).show();
+                exit = true;
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        exit = false;
+                    }
+                }, 3 * 1000);
+
+            }*/
         }
     }
 

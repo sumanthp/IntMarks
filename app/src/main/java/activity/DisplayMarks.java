@@ -7,8 +7,12 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,21 +24,25 @@ import com.example.hp.intmarks.AppConfig;
 import com.example.hp.intmarks.AppController;
 import com.example.hp.intmarks.MainActivity;
 import com.example.hp.intmarks.R;
+import com.example.hp.intmarks.TripleArrayAdapter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import helper.SQLiteHandler;
 import helper.SessionManager;
 
+
+
 /**
  * Created by HP on 26/02/2017.
  */
 
-public class DisplayMarks extends Activity{
+public class DisplayMarks extends AppCompatActivity{
     private ProgressDialog pDialog;
     private SessionManager session;
     private SQLiteHandler db;
@@ -47,146 +55,65 @@ public class DisplayMarks extends Activity{
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+      //  getActionBar().show();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_marks);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
 
         session = new SessionManager(getApplicationContext());
         db = new SQLiteHandler(getApplicationContext());
+        String[] marks;
 
-        firstInt=(TextView)findViewById(R.id.FIMarks);
-        secondInt=(TextView)findViewById(R.id.SIMarks);
-        thirdInt=(TextView)findViewById(R.id.TIMarks);
-        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.chat);
-        //Intent intent=getIntent();
-        // String code=intent.getStringExtra("course");
-       //marks(MainActivity.usn,code);
+        String TypeOfMarks[]=new String[]{"First Internals","Second Internals","Third Internals","Quiz","Lab","Self Study","Total","Best Of Two"};
 
+        //ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,R.layout.item_marks,R.id.type,TypeOfMarks);
+        ListView listView=(ListView)findViewById(R.id.marks);
+        //listView.setAdapter(adapter);
 
-        HashMap<String, String> user = db.getMarks();
-        String firstInternals=user.get("F_INT");
-        String secondInternals=user.get("S_INT");
-        String thirdInternals=user.get("T_INT");
-        String quiz=user.get("QUIZ");
-        String lab=user.get("LAB");
-        String selfStudy=user.get("SELF_STUDY");
-        String finalMarks=user.get("FINAL_MARKS");
-        String bestoftwo=user.get("BOT");
+        Intent intent=getIntent();
+        String coursecode= intent.getStringExtra("courseId");
+       //marks=new String[]{"10","20","30","40","50","60","70","80","90"};
+        HashMap<String, String> user = db.getMarks(coursecode);
 
-        firstInt.setText(firstInternals);
-        secondInt.setText(secondInternals);
-        thirdInt.setText(thirdInternals);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                      Intent i=new Intent(DisplayMarks.this,ChatActivity.class);
-                      startActivity(i);
-            }
-        });
+           int size=user.size();
+           System.out.println(size);
+
+          if(!(size>0)) {
+            Toast.makeText(this, "Marks of subject " + coursecode + "are not available,try again later", Toast.LENGTH_SHORT).show();
+            Intent i=new Intent(DisplayMarks.this,MainActivity.class);
+            startActivity(i);
+            finish();
+           }
+        else {
+            marks = new String[user.size()];
+
+            marks[0] = user.get("F_INT");
+            marks[1] = user.get("S_INT");
+            marks[2] = user.get("T_INT");
+            marks[3] = user.get("QUIZ");
+            marks[4] = user.get("LAB");
+            marks[5] = user.get("S_STUDY");
+            marks[6] = user.get("FINAL_MARKS");
+            marks[7] = user.get("BOT");
+
+            listView.setAdapter(new TripleArrayAdapter(this, TypeOfMarks, marks));
+
+        /*    String firstInternals = user.get("F_INT");
+            String secondInternals = user.get("S_INT");
+            String thirdInternals = user.get("T_INT");
+            String quiz = user.get("QUIZ");
+            String lab = user.get("LAB");
+            String selfStudy = user.get("SELF_STUDY");
+            String finalMarks = user.get("FINAL_MARKS");
+            String bestoftwo = user.get("BOT");
+            */
+        }
     }
 
-  /*  public void marks(final String username,final String course)
-    {
-        String tag_string_req = "req_login";
-
-        pDialog.setMessage("Downloading Marks ...");
-        showDialog();
-
-        StringRequest strReq = new StringRequest(Request.Method.POST,
-                AppConfig.URL_MARKS, new Response.Listener<String>() {
-
-
-            @Override
-            public void onResponse(String response) {
-                Log.d(TAG, "Request Response: " + response.toString());
-                hideDialog();
-
-                try {
-                    JSONObject jObj = new JSONObject(response);
-                    boolean error = jObj.getBoolean("error");
-
-                    // Check for error node in json
-                    if (!error) {
-                        // user successfully logged in
-                        // Create login session
-                        session.setLogin(true);
-
-                        // Now store the user in SQLite
-                        JSONObject user = jObj.getJSONObject("user");
-
-                        String USN = user.getString("USN");
-                        String subject_code=user.getString("COURSE_CODE");
-                        String firstInternals=user.getString("TEST1");
-                        String secondInternals=user.getString("TEST2");
-                        String thirdInternals=user.getString("TEST3");
-                        String quiz=user.getString("QUIZ");
-                        String lab=user.getString("LAB");
-                        String self_study=user.getString("S_STUDY");
-                        String finalMarks=user.getString("FINAL_MARKS");
-                        String bestofTwo=user.getString("BEST_OF_TWO");
-
-                        Toast.makeText(getApplicationContext(),"Marks have been successfully retrieved",Toast.LENGTH_LONG).show();
-                        // String created_at = user
-                        //.getString("created_at");
-
-                        // Inserting row in users table
-                         db.addmarks(USN,subject_code,firstInternals,secondInternals,thirdInternals,quiz,lab,self_study,finalMarks,bestofTwo);
-
-                        // Launch main activity
-                        /*Intent intent = new Intent(DisplayMarks.this,
-                                MainActivity.class);
-                        startActivity(intent);*/
-                   /*     finish();
-                    } else {
-                        // Error in login. Get the error message
-                        String errorMsg = jObj.getString("error_msg");
-                        Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_LONG).show();
-                    }
-                } catch (JSONException e) {
-                    // JSON error
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-
-            }
-        }, new Response.ErrorListener() {*/
-
-         /*   @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "Retrieving Marks Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_LONG).show();
-                hideDialog();
-            }
-        }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                // Posting parameters to login url
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("username", username);
-                params.put("course", course);
-
-                return params;
-            }
-
-        };
-
-        // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
-    }*/
-
-  /*  private void showDialog() {
-        if (!pDialog.isShowing())
-            pDialog.show();
-    }
-
-    private void hideDialog() {
-        if (pDialog.isShowing())
-            pDialog.dismiss();
-    }*/
     @Override
     protected void onDestroy() {
         db.close();
@@ -195,10 +122,8 @@ public class DisplayMarks extends Activity{
 
     @Override
     public void onBackPressed() {
-
             Intent intent=new Intent(DisplayMarks.this,MainActivity.class);
-        startActivity(intent);
-
+            startActivity(intent);
     }
 
 

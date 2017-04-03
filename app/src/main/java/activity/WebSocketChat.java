@@ -5,6 +5,8 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import com.example.hp.intmarks.MainActivity;
 import com.example.hp.intmarks.R;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,11 +17,13 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import android_websockets.WebSocketClient;
@@ -31,7 +35,7 @@ public class WebSocketChat extends Activity {
 
     private Button btnSend;
     private EditText inputMsg;
-
+    private TextView usn;
     private WebSocketClient client;
 
     // Chat messages list adapter
@@ -60,8 +64,9 @@ public class WebSocketChat extends Activity {
         utils = new Utils(getApplicationContext());
 
         // Getting the person name from previous screen
-        Intent i = getIntent();
-        name = i.getStringExtra("name");
+       /* Intent i = getIntent();
+        name = i.getStringExtra("name");*/
+
 
         btnSend.setOnClickListener(new View.OnClickListener() {
 
@@ -85,7 +90,7 @@ public class WebSocketChat extends Activity {
          * Creating web socket client. This will have callback methods
          * */
         client = new WebSocketClient(URI.create(WebSocketConfig.URL_WEBSOCKET
-                + URLEncoder.encode(name)), new WebSocketClient.Listener() {
+                + URLEncoder.encode(MainActivity.usn)), new WebSocketClient.Listener() {
             @Override
             public void onConnect() {
 

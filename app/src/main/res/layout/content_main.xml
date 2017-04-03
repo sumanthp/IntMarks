@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_main"
@@ -9,45 +14,86 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
     tools:context="com.example.hp.intmarks.MainActivity"
     tools:showIn="@layout/app_bar_main"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="1"   >
 
 
     <Button
-        android:text="16IS5DCJAV"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:theme="@style/MyButton"
         android:id="@+id/sub1"
-        android:layout_margin="20dp" />
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+
+        android:layout_marginTop="40dp"
+        android:text="Software Engineering" />
 
     <Button
-        android:text="16IS5DCDBM"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:theme="@style/MyButton"
         android:id="@+id/sub2"
-        android:layout_margin="20dp" />
+        android:layout_width="wrap_content"
+        android:layout_height="75dp"
+        android:layout_below="@+id/sub1"
+        android:layout_marginTop="20dp"
+        android:text="Computer Networks and Security"
+        android:layout_alignRight="@+id/sub1"
+        android:layout_alignEnd="@+id/sub1"
+        android:layout_alignLeft="@+id/sub1"
+        android:layout_alignStart="@+id/sub1" />
 
     <Button
-        android:text="16IS5DCDCN"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:theme="@style/MyButton"
         android:id="@+id/sub3"
-        android:layout_margin="20dp" />
+        android:layout_width="wrap_content"
+        android:layout_height="75dp"
+        android:layout_below="@+id/sub2"
+        android:layout_marginTop="20dp"
+        android:text="C# and .NET"
+        android:layout_alignRight="@+id/sub1"
+        android:layout_alignEnd="@+id/sub1"
+        android:layout_alignLeft="@+id/sub1"
+        android:layout_alignStart="@+id/sub1" />
 
     <Button
-        android:text="16IS5DCWEP"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:theme="@style/MyButton"
         android:id="@+id/sub4"
-        android:layout_margin="20dp" />
+        android:layout_width="wrap_content"
+        android:layout_height="75dp"
+        android:layout_below="@+id/sub3"
+        android:layout_marginTop="20dp"
+        android:text="Entrepreneuship and Management"
+        android:layout_alignRight="@+id/sub1"
+        android:layout_alignEnd="@+id/sub1"
+        android:layout_alignLeft="@+id/sub1"
+        android:layout_alignStart="@+id/sub1" />
 
     <Button
-        android:text="16IS6DCAIN"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:theme="@style/MyButton"
         android:id="@+id/sub5"
-        android:layout_margin="20dp" />
+        android:layout_width="wrap_content"
+        android:layout_height="75dp"
+        android:layout_below="@+id/sub4"
+        android:layout_marginTop="20dp"
+        android:text="Social Network Analysis"
+        android:layout_alignRight="@+id/sub1"
+        android:layout_alignEnd="@+id/sub1"
+        android:layout_alignLeft="@+id/sub1"
+        android:layout_alignStart="@+id/sub1" />
 
-</LinearLayout>
+    <Button
+        android:theme="@style/MyButton"
+        android:id="@+id/sub6"
+        android:layout_width="wrap_content"
+        android:layout_height="75dp"
+        android:layout_below="@+id/sub5"
+        android:layout_marginTop="20dp"
+        android:text="Elective"
+        android:layout_alignRight="@+id/sub1"
+        android:layout_alignEnd="@+id/sub1"
+        android:layout_alignLeft="@+id/sub1"
+        android:layout_alignStart="@+id/sub1" />
+
+</RelativeLayout>
+</ScrollView>
